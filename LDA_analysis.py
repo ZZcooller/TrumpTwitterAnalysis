@@ -18,6 +18,7 @@ def LDA_analysis(texts, nTopics, onlyCount=True, showPic=True):
     if onlyCount:
         vectorizer = CountVectorizer(analyzer='word', ngram_range=(min_ngram, max_ngram), max_features=max_features, encoding='utf-8', strip_accents='unicode', stop_words='english', max_df=max_df, min_df=min_df)
         X = vectorizer.fit_transform(texts)
+        print X
     else:
         vectorizer = TfidfVectorizer(analyzer='word', ngram_range=(min_ngram, max_ngram), max_features=max_features, encoding='utf-8', strip_accents='unicode', stop_words='english', max_df=max_df, min_df=min_df)
         X = vectorizer.fit_transform(texts)
@@ -27,11 +28,12 @@ def LDA_analysis(texts, nTopics, onlyCount=True, showPic=True):
     print_top_words(lda, feature_names, 10)
 
     print lda.components_.shape
-    print X_new[9]
+    print X_new
+
 
     cosSim = cosine_similarity(X, lda.components_, False)
-    print texts[9]
-    print cosSim[9]
+    print texts
+    print cosSim
 
     if showPic:
         #pyLDAvis.enable_notebook()
@@ -50,7 +52,7 @@ if __name__ == '__main__':
     doc1 = "Shipment of gold damaged in a fire"
     doc2 = "Delivery of silver arrived in a silver truck"
     doc3 = "Shipment of gold arrived in a truck"
-    documents = doc1 + " " + doc2 + " " + doc3
-
-    LDA_analysis(documents.split(), 2)
+    #documents = doc1 + " " + doc2 + " " + doc3
+    documents = [doc1, doc2, doc3]
+    LDA_analysis(documents,2)
 
